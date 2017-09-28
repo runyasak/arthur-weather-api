@@ -7,7 +7,11 @@ app.get('/weather', async (req, res) => {
   const data = await openWeatherAPI.currentWeather()
   console.log('data:', data)
   res.setHeader('Content-Type', 'application/json')
-  res.json(data)
+  if (data) {
+    res.json(data)
+  } else {
+    res.status(404).send(null)
+  }
 })
 
 app.listen(3000, () => {

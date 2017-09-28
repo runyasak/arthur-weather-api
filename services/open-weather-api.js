@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 const currentWeather = async () => {
-  const result = await axios.get('http://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b1b15e88fa797225412429c1c50c122a1')
+  const result = await axios
+    .get('http://api.openweathermap.org/data/2.5/forecast?id=1608132&APPID=ff332f54015b41493ccd32caa1e2cc70')
+    .catch(err => err)
   return result.data
 }
 
