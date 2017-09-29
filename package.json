@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "webpack --config webpack.config.js",
-    "dev": "NODE_ENV=development nodemon src/index.js --exec babel-node -e js"
+    "dev": "NODE_ENV=development nodemon src/app.js --exec babel-node -e js"
   },
   "author": "",
   "license": "ISC",

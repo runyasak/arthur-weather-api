@@ -3,6 +3,12 @@ import { openWeatherAPI } from '../services/'
 
 const app = express()
 
+app.set('port', process.env.PORT || 3000)
+
+app.get('/', (req, res) => {
+  res.send('hello weather!')
+})
+
 app.get('/weather/:country', async (req, res) => {
   const data = Number(req.params.country)
     ? await openWeatherAPI.currentWeatherByID(req.params.country)
@@ -16,6 +22,6 @@ app.get('/weather/:country', async (req, res) => {
   }
 })
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
+app.listen(app.get('port'), () => {
+  console.log('Listening on port 3000!')
 })
