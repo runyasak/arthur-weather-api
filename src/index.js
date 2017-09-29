@@ -3,8 +3,10 @@ import { openWeatherAPI } from '../services/'
 
 const app = express()
 
-app.get('/weather', async (req, res) => {
-  const data = await openWeatherAPI.currentWeather()
+app.get('/weather/:country', async (req, res) => {
+  const data = Number(req.params.country)
+    ? await openWeatherAPI.currentWeatherByID(req.params.country)
+    : await openWeatherAPI.currentWeatherByName(req.params.country)
   console.log('data:', data)
   res.setHeader('Content-Type', 'application/json')
   if (data) {
