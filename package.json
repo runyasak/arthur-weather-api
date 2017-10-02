@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "NODE_ENV=production node build/index.js",
     "build": "webpack --config webpack.config.js",
-    "dev": "NODE_ENV=development nodemon src/app.js --exec babel-node -e js"
+    "dev": "NODE_ENV=development nodemon index.js --exec babel-node -e js"
   },
   "author": "",
   "license": "ISC",

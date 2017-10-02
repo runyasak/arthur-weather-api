@@ -1,5 +1,5 @@
 import express from 'express'
-import { openWeatherAPI } from '../services/'
+import { openWeatherAPI } from './services'
 
 const app = express()
 
