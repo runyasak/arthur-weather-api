@@ -11,8 +11,8 @@ app.get('/', (req, res) => {
 
 app.get('/weather/:country', async (req, res) => {
   const data = Number(req.params.country)
-    ? await openWeatherAPI.currentWeatherByID(req.params.country)
-    : await openWeatherAPI.currentWeatherByName(req.params.country)
+    ? await openWeatherAPI.currentWeatherByCountryID(req.params.country)
+    : await openWeatherAPI.currentWeatherByCountryName(req.params.country)
   console.log('data:', data)
   res.setHeader('Content-Type', 'application/json')
   if (data) {
