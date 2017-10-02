@@ -3,7 +3,7 @@
  */
 
 import axios from 'axios'
-import { APP_ID as appID } from '../config'
+import { APP_ID } from '../config'
 
 /**
  * Get current weather detail by country id.
@@ -11,7 +11,7 @@ import { APP_ID as appID } from '../config'
  * @returns {object}
  */
 const currentWeatherByCountryID = async (id) => {
-  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?id=${id}&APPID=${appID}`
+  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?id=${id}&APPID=${APP_ID}`
   const result = await axios.get(fullUrl).catch(err => err)
   return result.data
 }
@@ -22,7 +22,7 @@ const currentWeatherByCountryID = async (id) => {
  * @returns {object}
  */
 const currentWeatherByCountryName = async (name) => {
-  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=${appID}`
+  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=${APP_ID}`
   const result = await axios.get(fullUrl).catch(err => err)
   return result.data
 }

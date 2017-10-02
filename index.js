@@ -1,10 +1,10 @@
 import express from 'express'
-import { SERVER_PORT as port } from './config'
-import { openWeatherAPI } from './services'
+import { openWeatherAPI } from 'services'
+import { SERVER_PORT } from 'config'
 
 const app = express()
 
-app.set('port', port)
+app.set('port', SERVER_PORT)
 
 app.get('/', (req, res) => {
   res.send('hello weather!')
