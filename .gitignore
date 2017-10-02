@@ -36,6 +36,9 @@ bower_components
 build
 build/Release
 
+# APP Config
+config
+
 # Dependency directories
 node_modules/
 jspm_packages/
