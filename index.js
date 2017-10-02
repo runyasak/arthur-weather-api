@@ -1,9 +1,10 @@
 import express from 'express'
+import * as config from './config'
 import { openWeatherAPI } from './services'
 
 const app = express()
 
-app.set('port', process.env.PORT || 3000)
+app.set('port', config.port)
 
 app.get('/', (req, res) => {
   res.send('hello weather!')
@@ -23,5 +24,5 @@ app.get('/weather/:country', async (req, res) => {
 })
 
 app.listen(app.get('port'), () => {
-  console.log('Listening on port 3000!')
+  console.log(`Listening on port ${app.get('port')}!`)
 })
