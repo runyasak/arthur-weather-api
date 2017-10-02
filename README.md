@@ -5,6 +5,10 @@ The service for request current forecasting of country by country name or id, ac
 * Node V6
 * NPM latest version
 
+##Packages
+* Express
+* node-sqlite3
+
 ##Usage
 Install all packages and run on development
 
