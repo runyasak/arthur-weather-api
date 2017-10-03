@@ -1,15 +1,15 @@
-#Arthur Weather API
+# Arthur Weather API
 The service for request current forecasting of country by country name or id, according to [openWeatherMap](http://openweathermap.org/current).
 
-##Requirements
+## 💡 Requirements
 * Node V6
 * NPM latest version
 
-##Packages
+## 📦 Packages
 * Express
 * node-sqlite3
 
-##Usage
+## ✨ Usage
 Install all packages and run on development
 
 	npm run dev
