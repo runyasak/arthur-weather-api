@@ -3,7 +3,7 @@
  */
 
 const axios = require('axios')
-const config = require('../config')
+// const config = require('../config')
 
 /**
  * Get current weather detail by country id.
@@ -11,7 +11,8 @@ const config = require('../config')
  * @returns {object}
  */
 const currentWeatherByCountryID = async (id) => {
-  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?id=${id}&APPID=${config.APP_ID}`
+  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?id=${id}&APPID=${process.env
+    .APP_ID}`
   const result = await axios.get(fullUrl).catch(err => err)
   return result.data
 }
@@ -22,7 +23,8 @@ const currentWeatherByCountryID = async (id) => {
  * @returns {object}
  */
 const currentWeatherByCountryName = async (name) => {
-  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=${config.APP_ID}`
+  const fullUrl = `http://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=${process.env
+    .APP_ID}`
   const result = await axios.get(fullUrl).catch(err => err)
   return result.data
 }
