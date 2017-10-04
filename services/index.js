@@ -1,3 +1,5 @@
-import openWeatherAPI from './open-weather-api'
+const openWeatherAPI = require('./open-weather-api')
 
-export { openWeatherAPI }
+module.exports = {
+  openWeatherAPI,
+}
