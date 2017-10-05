@@ -3,7 +3,6 @@
  */
 
 const axios = require('axios')
-// const config = require('../config')
 
 /**
  * Get current weather detail by country id.
