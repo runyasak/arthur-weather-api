@@ -1,7 +1,7 @@
 const openWeatherAPI = require('./open-weather-api')
-const querySqlite = require('./query-sqlite')
+const openWeatherSqlite = require('./open-weather-sqlite')
 
 module.exports = {
   openWeatherAPI,
-  querySqlite,
+  openWeatherSqlite,
 }
