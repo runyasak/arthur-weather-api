@@ -1,7 +1,3 @@
-/**
- * Get forecasting detail of country.
- */
-
 const axios = require('axios')
 
 /**
@@ -9,6 +5,7 @@ const axios = require('axios')
  * @param {string} id
  * @returns {object}
  */
+
 const currentWeatherByCountryID = async (id) => {
   const fullUrl = `http://api.openweathermap.org/data/2.5/weather?id=${id}&APPID=${process.env
     .APP_ID}`
@@ -21,6 +18,7 @@ const currentWeatherByCountryID = async (id) => {
  * @param {string} name
  * @returns {object}
  */
+
 const currentWeatherByCountryName = async (name) => {
   const fullUrl = `http://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=${process.env
     .APP_ID}`
@@ -30,5 +28,5 @@ const currentWeatherByCountryName = async (name) => {
 
 module.exports = {
   currentWeatherByCountryID,
-  currentWeatherByCountryName,
+  currentWeatherByCountryName
 }

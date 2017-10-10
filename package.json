@@ -2,10 +2,10 @@
   "name": "arthur-weather-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --exec \"node -r dotenv/config\" -L index.js"
+    "start": "node app.js",
+    "dev": "nodemon --exec \"node -r dotenv/config\" -L app.js"
   },
   "author": "",
   "license": "ISC",
