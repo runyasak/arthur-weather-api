@@ -1,8 +1,14 @@
+/* eslint-disable */
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load()
+}
+/* eslint-enable */
+
 const express = require('express')
 
 const app = express()
 
-app.set('port', 3000)
+app.set('port', process.env.PORT || 3000)
 
 app.get('/', (req, res) => {
   res.send('hello weather!')

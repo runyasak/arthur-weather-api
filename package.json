@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon --exec \"node -r dotenv/config\" -L app.js"
+    "dev": "nodemon -L app.js"
   },
   "author": "",
   "license": "ISC",
