@@ -15,6 +15,7 @@
     "sql.js": "^0.4.0"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.7.2",
     "eslint-config-airbnb-base": "^12.0.1",
