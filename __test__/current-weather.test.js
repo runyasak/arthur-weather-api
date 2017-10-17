@@ -9,9 +9,7 @@ process.env.APP_ID = 'test123'
 
 describe('#get currentWeatherByCountry ID/Name of Thailand using async/await', () => {
   it('should get current weather data by ID', async () => {
-    /* eslint-disable */
     const mock = new MockAdapter(axios)
-    /* eslint-enable */
     mock
       .onGet(`http://api.openweathermap.org/data/2.5/weather?id=${countryID}&APPID=${process.env.APP_ID}`)
       .reply(200, {
