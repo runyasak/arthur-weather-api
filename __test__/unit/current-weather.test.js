@@ -9,7 +9,7 @@ process.env.APP_ID = 'test123'
 
 describe('#get currentWeatherByCountry ID/Name of Thailand using async/await', () => {
   it('should get current weather data by ID', async () => {
-    MockOpenWeatherAPI.successResponse.initiate()
+    MockOpenWeatherAPI.successResponse()
     const result = await OpenWeatherAPI.currentWeatherByCountryID(countryID)
     expect(result).toBeDefined()
     expect(result.id).toEqual(countryID)
