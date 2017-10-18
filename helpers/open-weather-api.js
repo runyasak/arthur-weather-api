@@ -8,7 +8,7 @@ const endpointURL = 'http://api.openweathermap.org/data/2.5/weather'
  * @returns {object}
  */
 
-const currentWeatherByCountryID = async (id) => {
+exports.currentWeatherByCountryID = async (id) => {
   const result = await axios.get(`${endpointURL}?id=${id}&APPID=${process.env.APP_ID}`)
   return result.data
 }
@@ -19,12 +19,7 @@ const currentWeatherByCountryID = async (id) => {
  * @returns {object}
  */
 
-const currentWeatherByCountryName = async (name) => {
+exports.currentWeatherByCountryName = async (name) => {
   const result = await axios.get(`${endpointURL}?q=${name}&APPID=${process.env.APP_ID}`)
   return result.data
-}
-
-module.exports = {
-  currentWeatherByCountryID,
-  currentWeatherByCountryName
 }
