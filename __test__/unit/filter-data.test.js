@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-const ResponseData = require('../../helpers/response-data')
+const DataHandler = require('../../helpers/data-handler')
 
 let testData = {}
 
@@ -14,8 +14,8 @@ beforeAll(() => {
 
 describe('#get filtered data', () => {
   it('should get data that was filtered from assigned properties', () => {
-    const result = ResponseData.filterData(testData, 'id', 'name')
-    const result2 = ResponseData.filterData(testData, 'id')
+    const result = DataHandler.filterData(testData, 'id', 'name')
+    const result2 = DataHandler.filterData(testData, 'id')
     expect(result.id).toBeDefined()
     expect(result.name).toBeDefined()
     expect(result2.id).toBeDefined()
