@@ -3,6 +3,10 @@
  */
 
 const express = require('express')
+const FormatDate = require('../helpers/format-date')
+const OpenWeather = require('../helpers/open-weather')
+const DataHandler = require('../helpers/data-handler')
+
 const Weather = require('../models/weather')
 
 const router = express.Router()
@@ -22,16 +26,22 @@ router.get('/get-all-Data', (req, res) => {
 
 router.get('/reset-data', (req, res) => {
   Weather.dropAndCreateTable()
-  res.send('table is reset!')
+  res.json(Weather.selectFromTable(tableName))
 })
 
 /**
  * Add current weather data with date as primary key
  */
 
-router.get('/add-current-weather', (req, res) => {
-  Weather.insertForecastToTable(tableName, '55', 'iiiii')
-  res.send('data is inserted!')
+router.get('/add-current-weather', async (req, res) => {
+  const currentDate = await FormatDate.getDate()
+  const weatherData = await OpenWeather.currentWeatherByCountryName('Thailand')
+  Weather.insertForecastToTable(
+    tableName,
+    currentDate,
+    JSON.stringify(DataHandler.filterData(weatherData, 'weather', 'main', 'dt'))
+  )
+  res.json(Weather.selectFromTable(tableName))
 })
 
 module.exports = router

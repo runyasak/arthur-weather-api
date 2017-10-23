@@ -8,7 +8,7 @@ const path = require('path')
 
 /**
  * Export data from sql.js to buffer and write with file system
- * @param {object} db
+ * @param {Database} db
  */
 
 const databaseExport = (db) => {
@@ -27,7 +27,8 @@ const databaseExport = (db) => {
 
 const dropAndCreateTable = () => {
   const db = new sql.Database()
-  const sqlstr = 'CREATE TABLE arthur_weather (timestamp char, forecast char);'
+  const sqlstr =
+    'CREATE TABLE arthur_weather (timestamp char, forecast char, PRIMARY KEY (timestamp));'
   db.exec(sqlstr)
   databaseExport(db)
   console.log('dropAndCreateTable!!')
@@ -41,8 +42,13 @@ const dropAndCreateTable = () => {
 const selectFromTable = (tableName) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
   const db = new sql.Database(filebuffer)
-  const res = db.exec(`SELECT * FROM ${tableName};`)
-  return res
+  let res
+  try {
+    res = db.exec(`SELECT * FROM ${tableName};`)
+  } catch (err) {
+    console.log(err)
+  }
+  return res || `no such table: ${tableName}`
 }
 
 /**
@@ -56,7 +62,11 @@ const insertForecastToTable = (tableName, timestamp, value) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
   const db = new sql.Database(filebuffer)
   const sqlstr = `INSERT INTO ${tableName} (timestamp, forecast) VALUES ('${timestamp}', '${value}')`
-  db.run(sqlstr)
+  try {
+    db.run(sqlstr)
+  } catch (err) {
+    console.log(err)
+  }
   databaseExport(db)
 }
 
