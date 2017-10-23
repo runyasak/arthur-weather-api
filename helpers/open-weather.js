@@ -3,7 +3,7 @@ const axios = require('axios')
 const endpointURL = 'http://api.openweathermap.org/data/2.5/weather'
 
 /**
- * Get current weather detail by country id.
+ * Get current weather detail by country id
  * @param {string} id
  * @returns {object}
  */
@@ -14,7 +14,7 @@ exports.currentWeatherByCountryID = async (id) => {
 }
 
 /**
- * Get current weather detail by country name.
+ * Get current weather detail by country name
  * @param {string} name
  * @returns {object}
  */

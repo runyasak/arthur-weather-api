@@ -8,6 +8,10 @@ const express = require('express')
 
 const router = express.Router()
 
+/**
+ * Get data with country name or country id.
+ */
+
 router.get('/:country', async (req, res) => {
   const data = Number(req.params.country)
     ? await OpenWeather.currentWeatherByCountryID(req.params.country)

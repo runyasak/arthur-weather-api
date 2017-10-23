@@ -1,6 +1,15 @@
+/**
+ * Weather data from sqlite
+ */
+
 const fs = require('fs')
 const sql = require('sql.js')
 const path = require('path')
+
+/**
+ * Export data from sql.js to buffer and write with file system
+ * @param {object} db
+ */
 
 const databaseExport = (db) => {
   try {
@@ -12,6 +21,10 @@ const databaseExport = (db) => {
   }
 }
 
+/**
+ * Create table replace previous
+ */
+
 const dropAndCreateTable = () => {
   const db = new sql.Database()
   const sqlstr = 'CREATE TABLE arthur_weather (timestamp char, forecast char);'
@@ -20,12 +33,24 @@ const dropAndCreateTable = () => {
   console.log('dropAndCreateTable!!')
 }
 
+/**
+ * Get all data from table
+ * @param {string} tableName
+ */
+
 const selectFromTable = (tableName) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
   const db = new sql.Database(filebuffer)
   const res = db.exec(`SELECT * FROM ${tableName};`)
   return res
 }
+
+/**
+ * Insert new weather data in table
+ * @param {string} tableName
+ * @param {string} timestamp
+ * @param {string} value
+ */
 
 const insertForecastToTable = (tableName, timestamp, value) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
