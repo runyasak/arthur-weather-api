@@ -24,7 +24,6 @@ const selectFromTable = (tableName) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
   const db = new sql.Database(filebuffer)
   const res = db.exec(`SELECT * FROM ${tableName};`)
-  db.close()
   return res
 }
 

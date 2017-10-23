@@ -14,7 +14,7 @@ router.get('/reset-data', (req, res) => {
 })
 
 router.get('/add-current-weather', (req, res) => {
-  Weather.insertForecastToTable(tableName, '22', 'eiei')
+  Weather.insertForecastToTable(tableName, '55', 'iiiii')
   res.send('data is inserted!')
 })
 
