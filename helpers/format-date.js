@@ -6,4 +6,4 @@ const format = require('date-fns/format')
  */
 
 exports.getDate = inputDate =>
-  (inputDate ? format(inputDate, 'MM/DD/YYYY') : format(new Date(), 'MM/DD/YYYY'))
+  (inputDate ? format(inputDate, 'YYYY/MM/DD') : format(new Date(), 'YYYY/MM/DD'))

@@ -44,4 +44,22 @@ router.get('/add-current-weather', async (req, res) => {
   res.json(Weather.selectFromTable(tableName))
 })
 
+/**
+ * Add example weather data from Yahoo with date as primary key
+ */
+
+router.get('/add-example-weather', async (req, res) => {
+  const weatherData = await WeatherAPI.exampleCurrentWeather()
+  const filterData = Object.assign(
+    {},
+    {
+      created: weatherData.query.created,
+      condition: weatherData.query.results.channel.item.condition,
+      forecast: weatherData.query.results.channel.item.forecast
+    }
+  )
+  Weather.insertForecastToTable(tableName, new Date(), JSON.stringify(filterData))
+  res.json(Weather.selectFromTable(tableName))
+})
+
 module.exports = router

@@ -28,7 +28,7 @@ const databaseExport = (db) => {
 const dropAndCreateTable = () => {
   const db = new sql.Database()
   const sqlstr =
-    'CREATE TABLE arthur_weather (timestamp char, forecast char, PRIMARY KEY (timestamp));'
+    'CREATE TABLE arthur_weather (timestamp char, year char, month char, day char, forecast_data char, PRIMARY KEY (timestamp));'
   db.exec(sqlstr)
   databaseExport(db)
   console.log('dropAndCreateTable!!')
@@ -58,10 +58,10 @@ const selectFromTable = (tableName) => {
  * @param {string} value
  */
 
-const insertForecastToTable = (tableName, timestamp, value) => {
+const insertForecastToTable = (tableName, date, value) => {
   const filebuffer = fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
   const db = new sql.Database(filebuffer)
-  const sqlstr = `INSERT INTO ${tableName} (timestamp, forecast) VALUES ('${timestamp}', '${value}')`
+  const sqlstr = `INSERT INTO ${tableName} (timestamp, year, month, day, forecast_data) VALUES ('${Number(date)}', ${date.getFullYear()}, ${date.getMonth()}, ${date.getDate()}, '${value}')`
   try {
     db.run(sqlstr)
   } catch (err) {
