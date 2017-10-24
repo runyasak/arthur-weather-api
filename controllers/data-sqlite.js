@@ -4,7 +4,7 @@
 
 const express = require('express')
 const FormatDate = require('../helpers/format-date')
-const OpenWeather = require('../helpers/open-weather')
+const WeatherAPI = require('../helpers/weather-api')
 const DataHandler = require('../helpers/data-handler')
 
 const Weather = require('../models/weather')
@@ -35,7 +35,7 @@ router.get('/reset-data', (req, res) => {
 
 router.get('/add-current-weather', async (req, res) => {
   const currentDate = await FormatDate.getDate()
-  const weatherData = await OpenWeather.currentWeatherByCountryName('Thailand')
+  const weatherData = await WeatherAPI.currentWeatherByCountryName('Thailand')
   Weather.insertForecastToTable(
     tableName,
     currentDate,
