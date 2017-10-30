@@ -1,13 +1,11 @@
 /**
  * Data Sqlite Controller
  */
+const FilterData = require('../helpers/filter-data')
+const WeatherAPI = require('../services/weather-api')
+const Weather = require('../models/weather')
 
 const express = require('express')
-const FormatDate = require('../helpers/format-date')
-const WeatherAPI = require('../helpers/weather-api')
-const DataHandler = require('../helpers/data-handler')
-
-const Weather = require('../models/weather')
 
 const router = express.Router()
 const tableName = 'arthur_weather'
@@ -16,8 +14,24 @@ const tableName = 'arthur_weather'
  * Get all data from table
  */
 
-router.get('/get-all-Data', (req, res) => {
+router.get('/all', (req, res) => {
   res.json(Weather.selectFromTable(tableName))
+})
+
+/**
+ * Get data by year
+ */
+
+router.get('/year/:year', (req, res) => {
+  res.json(Weather.selectFromTable(tableName, req.params.year))
+})
+
+/**
+ * Get data by month
+ */
+
+router.get('/month/:month', (req, res) => {
+  res.json(Weather.selectFromTable(tableName, req.params.month))
 })
 
 /**
@@ -34,31 +48,13 @@ router.get('/reset-data', (req, res) => {
  */
 
 router.get('/add-current-weather', async (req, res) => {
-  const currentDate = await FormatDate.getDate()
-  const weatherData = await WeatherAPI.currentWeatherByCountryName('Thailand')
+  const currentDate = new Date()
+  const weatherData = await WeatherAPI.currentWeather()
   Weather.insertForecastToTable(
     tableName,
     currentDate,
-    JSON.stringify(DataHandler.filterData(weatherData, 'weather', 'main', 'dt'))
+    JSON.stringify(FilterData.filter(weatherData))
   )
-  res.json(Weather.selectFromTable(tableName))
-})
-
-/**
- * Add example weather data from Yahoo with date as primary key
- */
-
-router.get('/add-example-weather', async (req, res) => {
-  const weatherData = await WeatherAPI.exampleCurrentWeather()
-  const filterData = Object.assign(
-    {},
-    {
-      created: weatherData.query.created,
-      condition: weatherData.query.results.channel.item.condition,
-      forecast: weatherData.query.results.channel.item.forecast
-    }
-  )
-  Weather.insertForecastToTable(tableName, new Date(), JSON.stringify(filterData))
   res.json(Weather.selectFromTable(tableName))
 })
 
