@@ -14,8 +14,8 @@ const tableName = 'arthur_weather'
  * Get all data from table
  */
 
-router.get('/all', (req, res) => {
-  res.json(Weather.selectFromTable(tableName))
+router.get('/history', (req, res) => {
+  res.json(Weather.select(tableName))
 })
 
 /**
@@ -23,7 +23,7 @@ router.get('/all', (req, res) => {
  */
 
 router.get('/year/:year', (req, res) => {
-  res.json(Weather.selectFromTable(tableName, req.params.year))
+  res.json(Weather.select(tableName, req.params.year))
 })
 
 /**
@@ -31,31 +31,27 @@ router.get('/year/:year', (req, res) => {
  */
 
 router.get('/month/:month', (req, res) => {
-  res.json(Weather.selectFromTable(tableName, req.params.month))
+  res.json(Weather.select(tableName, req.params.month))
 })
 
 /**
  * Reset database and create a new table
  */
 
-router.get('/reset-data', (req, res) => {
+router.get('/reset', (req, res) => {
   Weather.dropAndCreateTable()
-  res.json(Weather.selectFromTable(tableName))
+  res.json(Weather.select(tableName))
 })
 
 /**
- * Add current weather data with date as primary key
+ * Add current weather data
  */
 
-router.get('/add-current-weather', async (req, res) => {
+router.get('/add', async (req, res) => {
   const currentDate = new Date()
-  const weatherData = await WeatherAPI.currentWeather()
-  Weather.insertForecastToTable(
-    tableName,
-    currentDate,
-    JSON.stringify(FilterData.filter(weatherData))
-  )
-  res.json(Weather.selectFromTable(tableName))
+  const weatherData = FilterData.filter(await WeatherAPI.currentWeather())
+  Weather.insert(tableName, currentDate, weatherData)
+  res.json(Weather.select(tableName))
 })
 
 module.exports = router

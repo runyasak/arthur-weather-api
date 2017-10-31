@@ -30,10 +30,10 @@ const getDatabase = () =>
  * Create table replace previous
  */
 
-const dropAndCreateTable = () => {
+exports.dropAndCreateTable = () => {
   const db = new sql.Database()
   const sqlstr =
-    'CREATE TABLE arthur_weather (timestamp char, year char, month char, day char, forecast_data char, PRIMARY KEY (timestamp));'
+    'CREATE TABLE arthur_weather (weather_data char, year char, month char, weather_code char, weather_high char, weather_low char, weather_text char, PRIMARY KEY (weather_data));'
   db.exec(sqlstr)
   databaseExport(db)
   console.log('dropAndCreateTable!!')
@@ -44,7 +44,7 @@ const dropAndCreateTable = () => {
  * @param {string} tableName
  */
 
-const selectFromTable = (tableName, time) => {
+exports.select = (tableName, time) => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${tableName}`
   const whereStr = time
@@ -67,19 +67,18 @@ const selectFromTable = (tableName, time) => {
  * @param {string} value
  */
 
-const insertForecastToTable = (tableName, date, value) => {
+exports.insert = (tableName, date, weatherData) => {
   const db = getDatabase()
-  const sqlstr = `INSERT INTO ${tableName} (timestamp, year, month, day, forecast_data) VALUES ('${Number(date)}', ${date.getFullYear()}, ${date.getMonth() + 1}, ${date.getDate()}, '${value}')`
-  try {
-    db.run(sqlstr)
-  } catch (err) {
-    console.log(err)
-  }
+  weatherData.weather_log.forEach((data) => {
+    const sqlstr = `INSERT INTO\
+    ${tableName} (weather_data, year, month, weather_code, weather_high, weather_low, weather_text)\
+    VALUES ('${data.weather_data}', '${date.getYear()}', '${date.getMonth() +
+      1}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+    try {
+      db.run(sqlstr)
+    } catch (err) {
+      console.log(err)
+    }
+  })
   databaseExport(db)
-}
-
-module.exports = {
-  selectFromTable,
-  insertForecastToTable,
-  dropAndCreateTable
 }

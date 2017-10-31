@@ -1,5 +1,5 @@
 /**
- * Get forecasting detail of country.
+ * Get forecasting detail of today.
  */
 
 const FilterData = require('../helpers/filter-data')
