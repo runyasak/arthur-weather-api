@@ -67,13 +67,12 @@ exports.select = (tableName, time) => {
  * @param {string} value
  */
 
-exports.insert = (tableName, date, weatherData) => {
+exports.insert = (tableName, weatherData) => {
   const db = getDatabase()
   weatherData.weather_log.forEach((data) => {
     const sqlstr = `INSERT INTO\
     ${tableName} (weather_data, year, month, weather_code, weather_high, weather_low, weather_text)\
-    VALUES ('${data.weather_data}', '${date.getYear()}', '${date.getMonth() +
-      1}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+    VALUES ('${data.weather_data}', '${DateTime.year(data.weather_data)}', '${DateTime.month(data.weather_data)}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
     try {
       db.run(sqlstr)
     } catch (err) {

@@ -48,9 +48,8 @@ router.get('/reset', (req, res) => {
  */
 
 router.get('/add', async (req, res) => {
-  const currentDate = new Date()
   const weatherData = FilterData.filter(await WeatherAPI.currentWeather())
-  Weather.insert(tableName, currentDate, weatherData)
+  Weather.insert(tableName, weatherData)
   res.json(Weather.select(tableName))
 })
 
