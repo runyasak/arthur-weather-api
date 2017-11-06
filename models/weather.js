@@ -75,7 +75,7 @@ const getDatabase = () =>
 exports.dropAndCreateTable = () => {
   const db = new sql.Database()
   const sqlstr =
-    'CREATE TABLE arthur_weather(weather_id INTEGER PRIMARY KEY ASC, weather_data char, year char, month char, weather_code char, weather_high char, weather_low char, weather_text char);'
+    'CREATE TABLE arthur_weather(weather_id INTEGER PRIMARY KEY ASC, weather_data date, weather_code char, weather_high char, weather_low char, weather_text char);'
   db.exec(sqlstr)
   databaseExport(db)
   console.log('dropAndCreateTable!!')
@@ -84,7 +84,7 @@ exports.dropAndCreateTable = () => {
 /**
  * Get all data from table
  */
-exports.select = (time) => {
+exports.history = (time) => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${tableName}`
   const whereStr = time
@@ -107,15 +107,16 @@ exports.select = (time) => {
 exports.add = (weatherData) => {
   const db = getDatabase()
   weatherData.weather_log.forEach((data) => {
-    const weatherID = existWeatherID(db, 'adsfasdf')
+    const weatherID = existWeatherID(db, data.weather_data)
     let sqlStr = ''
     if (weatherID) {
+      console.log(DateTime.format(data.weather_data))
       sqlStr = `UPDATE
       arthur_weather SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', weather_low='${data.weather_low}', weather_text='${data.weather_text}' WHERE weather_id = ${weatherID};`
     } else {
       sqlStr = `INSERT INTO
-      ${tableName} (weather_data, year, month, weather_code, weather_high, weather_low, weather_text)
-      VALUES ('${data.weather_data}', '${DateTime.year(data.weather_data)}', '${DateTime.month(data.weather_data)}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+      ${tableName} (weather_data, weather_code, weather_high, weather_low, weather_text)
+      VALUES ('${DateTime.format(data.weather_data)}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
     }
     runSql(db, sqlStr)
   })
