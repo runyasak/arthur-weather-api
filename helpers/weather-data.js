@@ -1,11 +1,11 @@
 const { ArrayUtil, DateTime } = require('.')
 
 /**
- * Map key of weather log data
+ * Map key of weather log data from api
  * @param {object} data
  * @returns {array}
  */
-const mapWeatherLog = data =>
+const mapWeatherLogAPI = data =>
   data.reduce(
     (acc, value) => [
       ...acc,
@@ -21,22 +21,35 @@ const mapWeatherLog = data =>
   )
 
 /**
- * Map key as columns with rows from sqlite data
+ * Map key as columns with rows
  * @param {array} columns array of columns
  * @param {array} rows array of rows
  * @returns {object} data that was mapped with columns and row
  */
-const mapSqlite = (columns, rows) =>
+const mapRow = (columns, row) =>
   columns.reduce(
-    (acc, value, index) =>
-      Object.assign(acc, {
-        [value]:
-          value === 'weather_data'
-            ? DateTime.format('DD MMM YYYY', rows[index])
-            : rows[index]
-      }),
+    (acc, value, index) => Object.assign(acc, { [value]: row[index] }),
     {}
   )
+
+/**
+ * Map sqlite data values
+ * @param {obj} columns array of columns
+ * @returns {object} data that was mapped with columns and row
+ */
+const mapSqliteData = data =>
+  ArrayUtil.first(data)
+    ? ArrayUtil.first(data).values.reduce(
+        (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
+        []
+      )
+    : []
+
+/**
+ * Success data for response
+ * @param {array} weatherLog 
+ * @param {object} currentCondition 
+ */
 const successData = (weatherLog, currentCondition) =>
   Object.assign(
     { success: true },
@@ -53,18 +66,7 @@ const successData = (weatherLog, currentCondition) =>
  * @param {object} data data from executing sql
  * @return {object} result of filtered object
  */
-exports.sqlite = data =>
-  successData(
-    ArrayUtil.first(data)
-      ? ArrayUtil.first(data).values.reduce(
-          (acc, value) => [
-            ...acc,
-            mapSqlite(ArrayUtil.first(data).columns, value)
-          ],
-          []
-        )
-      : []
-  )
+exports.sqlite = data => successData(mapSqliteData(data))
 
 /**
  * Filter data for current response which has current_condition and weather_log as future forecast
@@ -82,6 +84,6 @@ exports.current = (currentData, futureData) =>
  */
 exports.apiResponse = data =>
   successData(
-    mapWeatherLog(data.query.results.channel.item.forecast),
+    mapWeatherLogAPI(data.query.results.channel.item.forecast),
     data.query.results.channel.item.condition
   )

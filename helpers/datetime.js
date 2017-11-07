@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 /**
  * Format date as input format
@@ -7,7 +7,9 @@ const moment = require('moment')
  * @return {Date}
  */
 exports.format = (inputFormat, inputDate) =>
-  moment(inputDate ? new Date(inputDate) : new Date()).format(inputFormat)
+  moment(inputDate ? new Date(inputDate) : new Date())
+    .tz('Asia/Bangkok')
+    .format(inputFormat)
 
 /**
  * Add day from date

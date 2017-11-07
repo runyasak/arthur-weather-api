@@ -93,9 +93,8 @@ exports.current = () => {
     currentDate,
     1
   )}' AND '${DateTime.addDay(currentDate, 5)}'`
-  const futureResponse = WeatherData.sqlite(execSql(db, furtureSqlStr))
   const currentResponse = WeatherData.sqlite(execSql(db, currentSqlStr))
-  // console.log(currentResponse)
+  const futureResponse = WeatherData.sqlite(execSql(db, furtureSqlStr))
   return (
     WeatherData.current(currentResponse, futureResponse) ||
     `no such table: ${TABLE_NAME}`
@@ -129,18 +128,16 @@ exports.add = weatherData => {
       db,
       DateTime.format('YYYY-MM-DD', data.weather_data)
     )
-    let sqlStr = ''
-    if (weatherID) {
-      sqlStr = `UPDATE
-      arthur_weather SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', weather_low='${data.weather_low}', weather_text='${data.weather_text}' WHERE weather_id = ${weatherID};`
-    } else {
-      sqlStr = `INSERT INTO
-      ${TABLE_NAME} (weather_data, weather_code, weather_high, weather_low, weather_text)
-      VALUES ('${DateTime.format(
-        'YYYY-MM-DD',
-        data.weather_data
-      )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
-    }
+    const sqlStr = weatherID
+      ? `UPDATE
+    arthur_weather SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', weather_low='${data.weather_low}', weather_text='${data.weather_text}' WHERE weather_id = ${weatherID};`
+      : `INSERT INTO
+    ${TABLE_NAME} (weather_data, weather_code, weather_high, weather_low, weather_text)
+    VALUES ('${DateTime.format(
+      'YYYY-MM-DD',
+      data.weather_data
+    )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+
     runSql(db, sqlStr)
   })
   databaseExport(db)
