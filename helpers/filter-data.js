@@ -1,3 +1,5 @@
+const arrayFirst = arr => arr[0]
+
 /**
  * Map key of weather log data
  * @param {object} data
@@ -19,6 +21,9 @@ const mapWeatherLog = data =>
     []
   )
 
+const mapSqlite = (columns, rows) =>
+  columns.reduce((current, value, index) => Object.assign(current, { [value]: rows[index] }), {})
+
 /**
  * Get filtered data for necessary use
  * @param {object} data
@@ -32,5 +37,20 @@ exports.filter = data =>
       surccess: true,
       current_condition: data.query.results.channel.item.condition,
       weather_log: mapWeatherLog(data.query.results.channel.item.forecast)
+    }
+  )
+
+exports.sqlite = data =>
+  Object.assign(
+    {},
+    {
+      surccess: true,
+      weather_log: arrayFirst(data).values.reduce(
+        (current, value, index) => [
+          ...current,
+          mapSqlite(arrayFirst(data).columns, arrayFirst(data).values[index])
+        ],
+        []
+      )
     }
   )

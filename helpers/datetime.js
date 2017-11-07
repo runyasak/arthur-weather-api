@@ -35,6 +35,11 @@ exports.format = inputDate => moment(inputDate).format('YYYY-MM-DD')
  */
 exports.fullFormat = inputDate => moment(inputDate).format('DD MMM YYYY')
 
+exports.addDay = (inputDate, day) =>
+  moment(inputDate)
+    .add(day, day > 1 ? 'days' : 'day')
+    .format(inputDate.split('-').length > 1 ? 'YYYY-MM-DD' : 'DD MMM YYYY')
+
 /**
  * Check input time is year or month
  * @param {Date} inputTime

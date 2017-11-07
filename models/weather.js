@@ -1,4 +1,5 @@
 const DateTime = require('../helpers/datetime')
+const FilterData = require('../helpers/filter-data')
 
 const fs = require('fs')
 const sql = require('sql.js')
@@ -88,15 +89,10 @@ exports.history = (time) => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${tableName}`
   const whereStr = time
-    ? `${DateTime.isYear(time) ? `WHERE year=${time}` : `WHERE month=${time}`}`
+    ? `WHERE strftime('${DateTime.isYear(time) ? '%Y' : '%m'}', weather_data)='${time}'`
     : ''
-  const sqlstr = `${selectStr} ${whereStr};`
-  let res
-  try {
-    res = db.exec(sqlstr)
-  } catch (err) {
-    console.log(err)
-  }
+  const sqlStr = `${selectStr} ${whereStr}`
+  const res = FilterData.sqlite(execSql(db, sqlStr))
   return res || `no such table: ${tableName}`
 }
 
@@ -107,10 +103,9 @@ exports.history = (time) => {
 exports.add = (weatherData) => {
   const db = getDatabase()
   weatherData.weather_log.forEach((data) => {
-    const weatherID = existWeatherID(db, data.weather_data)
+    const weatherID = existWeatherID(db, DateTime.format(data.weather_data))
     let sqlStr = ''
     if (weatherID) {
-      console.log(DateTime.format(data.weather_data))
       sqlStr = `UPDATE
       arthur_weather SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', weather_low='${data.weather_low}', weather_text='${data.weather_text}' WHERE weather_id = ${weatherID};`
     } else {
