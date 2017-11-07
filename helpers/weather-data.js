@@ -1,11 +1,4 @@
-const DateTime = require('./datetime')
-
-/**
- * Get first element from array
- * @param {Array} arr array for get first element
- * @return {Data} first element of array
- */
-const arrayFirst = arr => arr[0]
+const { ArrayUtil, DateTime } = require('.')
 
 /**
  * Map key of weather log data
@@ -55,11 +48,11 @@ exports.sqlite = data =>
     {},
     {
       surccess: true,
-      weather_log: arrayFirst(data)
-        ? arrayFirst(data).values.reduce(
+      weather_log: ArrayUtil.first(data)
+        ? ArrayUtil.first(data).values.reduce(
             (acc, value) => [
               ...acc,
-              mapSqlite(arrayFirst(data).columns, value)
+              mapSqlite(ArrayUtil.first(data).columns, value)
             ],
             []
           )
@@ -78,7 +71,7 @@ exports.current = (currentData, futureData) =>
     {},
     {
       success: true,
-      current_condition: arrayFirst(currentData.weather_log),
+      current_condition: ArrayUtil.first(currentData.weather_log),
       weather_log: futureData.weather_log
     }
   )

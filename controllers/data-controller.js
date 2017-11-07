@@ -1,4 +1,4 @@
-const FilterData = require('../helpers/filter-data')
+const { WeatherData } = require('../helpers')
 const WeatherAPI = require('../services/weather-api')
 const Weather = require('../models/weather')
 
@@ -46,7 +46,7 @@ router.get('/reset', (req, res) => {
  * Add current weather data
  */
 router.get('/add', async (req, res) => {
-  const weatherData = FilterData.apiResponse(await WeatherAPI.currentWeather())
+  const weatherData = WeatherData.apiResponse(await WeatherAPI.currentWeather())
   Weather.add(weatherData)
   res.json(Weather.history())
 })

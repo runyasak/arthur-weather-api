@@ -2,8 +2,8 @@
  * Get forecasting detail of today.
  */
 
-const FilterData = require('../helpers/filter-data')
-const WeatherAPI = require('../services/weather-api')
+const { WeatherData } = require('../helpers')
+const { WeatherAPI } = require('../services')
 
 const express = require('express')
 
@@ -11,10 +11,10 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
   const data = await WeatherAPI.currentWeather()
-  const filterData = FilterData.apiResponse(data)
+  const result = WeatherData.apiResponse(data)
   res.setHeader('Content-Type', 'application/json')
   if (data) {
-    res.json(filterData)
+    res.json(result)
   } else {
     res.status(404).send(null)
   }

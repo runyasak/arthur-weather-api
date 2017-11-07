@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const ENDPOINT_URL = require('../constant').WEATHER_URL
+const { WEATHER_URL } = require('../constant')
 
 /**
  * Get current weather detail of Thailand from Yahoo Weather API
@@ -9,6 +9,6 @@ const ENDPOINT_URL = require('../constant').WEATHER_URL
  */
 
 exports.currentWeather = async () => {
-  const result = await axios.get(ENDPOINT_URL)
+  const result = await axios.get(WEATHER_URL)
   return result.data
 }

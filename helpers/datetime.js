@@ -1,7 +1,7 @@
 const moment = require('moment')
 
 /**
- * Convert date format as input format
+ * Format date as input format
  * @param {string} inputFormat
  * @param {Date} inputDate
  * @return {Date}
@@ -9,6 +9,12 @@ const moment = require('moment')
 exports.format = (inputFormat, inputDate) =>
   moment(inputDate ? new Date(inputDate) : new Date()).format(inputFormat)
 
+/**
+ * Add day from date
+ * @param {Date} inputDate
+ * @param {number} day number of day for adding
+ * @return {Date}
+ */
 exports.addDay = (inputDate, day) =>
   moment(new Date(inputDate))
     .add(day, day > 1 ? 'days' : 'day')
