@@ -46,7 +46,7 @@ router.get('/reset', (req, res) => {
  * Add current weather data
  */
 router.get('/add', async (req, res) => {
-  const weatherData = FilterData.filter(await WeatherAPI.currentWeather())
+  const weatherData = FilterData.apiResponse(await WeatherAPI.currentWeather())
   Weather.add(weatherData)
   res.json(Weather.history())
 })

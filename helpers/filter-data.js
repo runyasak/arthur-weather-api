@@ -14,8 +14,8 @@ const arrayFirst = arr => arr[0]
  */
 const mapWeatherLog = data =>
   data.reduce(
-    (current, value) => [
-      ...current,
+    (acc, value) => [
+      ...acc,
       {
         weather_code: value.code,
         weather_data: value.date,
@@ -35,9 +35,12 @@ const mapWeatherLog = data =>
  */
 const mapSqlite = (columns, rows) =>
   columns.reduce(
-    (current, value, index) =>
-      Object.assign(current, {
-        [value]: value === 'weather_data' ? DateTime.fullFormat(rows[index]) : rows[index]
+    (acc, value, index) =>
+      Object.assign(acc, {
+        [value]:
+          value === 'weather_data'
+            ? DateTime.format('DD MMM YYYY', rows[index])
+            : rows[index]
       }),
     {}
   )
@@ -52,13 +55,15 @@ exports.sqlite = data =>
     {},
     {
       surccess: true,
-      weather_log: arrayFirst(data).values.reduce(
-        (current, value, index) => [
-          ...current,
-          mapSqlite(arrayFirst(data).columns, arrayFirst(data).values[index])
-        ],
-        []
-      )
+      weather_log: arrayFirst(data)
+        ? arrayFirst(data).values.reduce(
+            (acc, value) => [
+              ...acc,
+              mapSqlite(arrayFirst(data).columns, value)
+            ],
+            []
+          )
+        : []
     }
   )
 
@@ -83,7 +88,7 @@ exports.current = (currentData, futureData) =>
  * @param {object} data
  * @returns {object}
  */
-exports.responseData = data =>
+exports.apiResponse = data =>
   Object.assign(
     {},
     {

@@ -8,13 +8,13 @@ const path = require('path')
 /**
  * @type {string} Table name in Database
  */
-const tableName = 'arthur_weather'
+const tableName = require('../constant').TABLE_NAME
 
 /**
  * Export data from sql.js to buffer and write with file system
  * @param {Database} db
  */
-const databaseExport = (db) => {
+const databaseExport = db => {
   try {
     const binaryArray = db.export()
     const buffer = Buffer.from(binaryArray.buffer)
@@ -68,7 +68,9 @@ const existWeatherID = (db, weatherData) => {
  * @return {sql.Database} Database from buffer
  */
 const getDatabase = () =>
-  new sql.Database(fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || ''))
+  new sql.Database(
+    fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
+  )
 
 /**
  * Create table replace previous
@@ -86,7 +88,7 @@ exports.dropAndCreateTable = () => {
  */
 exports.current = () => {
   const db = getDatabase()
-  const currentDate = DateTime.format()
+  const currentDate = DateTime.format('YYYY-MM-DD')
   const currentSqlStr = `SELECT * FROM ${tableName} WHERE weather_data='${currentDate}'`
   const furtureSqlStr = `SELECT * FROM ${tableName} WHERE weather_data BETWEEN '${DateTime.addDay(
     currentDate,
@@ -94,17 +96,23 @@ exports.current = () => {
   )}' AND '${DateTime.addDay(currentDate, 5)}'`
   const futureResponse = FilterData.sqlite(execSql(db, furtureSqlStr))
   const currentResponse = FilterData.sqlite(execSql(db, currentSqlStr))
-  return FilterData.current(currentResponse, futureResponse) || `no such table: ${tableName}`
+  console.log(currentResponse)
+  return (
+    FilterData.current(currentResponse, futureResponse) ||
+    `no such table: ${tableName}`
+  )
 }
 
 /**
  * Get all data from table
  */
-exports.history = (time) => {
+exports.history = time => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${tableName}`
   const whereStr = time
-    ? `WHERE strftime('${DateTime.isYear(time) ? '%Y' : '%m'}', weather_data)='${time}'`
+    ? `WHERE strftime('${DateTime.isYear(time)
+        ? '%Y'
+        : '%m'}', weather_data)='${time}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
   const result = FilterData.sqlite(execSql(db, sqlStr))
@@ -115,10 +123,13 @@ exports.history = (time) => {
  * Add or update new weather data in table
  * @param {string} weatherData
  */
-exports.add = (weatherData) => {
+exports.add = weatherData => {
   const db = getDatabase()
-  weatherData.weather_log.forEach((data) => {
-    const weatherID = existWeatherID(db, DateTime.format(data.weather_data))
+  weatherData.weather_log.forEach(data => {
+    const weatherID = existWeatherID(
+      db,
+      DateTime.format('YYYY-MM-DD', data.weather_data)
+    )
     let sqlStr = ''
     if (weatherID) {
       sqlStr = `UPDATE
@@ -126,7 +137,10 @@ exports.add = (weatherData) => {
     } else {
       sqlStr = `INSERT INTO
       ${tableName} (weather_data, weather_code, weather_high, weather_low, weather_text)
-      VALUES ('${DateTime.format(data.weather_data)}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+      VALUES ('${DateTime.format(
+        'YYYY-MM-DD',
+        data.weather_data
+      )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
     }
     runSql(db, sqlStr)
   })

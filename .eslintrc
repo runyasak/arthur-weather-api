@@ -9,6 +9,7 @@
     "linebreak-style": [2, "unix"],
     "semi": [2, "never"],
     "comma-dangle": ["error", { "functions": "never" }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "multiline-ternary": ["error", "always", { "maxExpressionLength": 40 }]
   }
 }
