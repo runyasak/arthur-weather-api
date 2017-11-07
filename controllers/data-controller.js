@@ -7,6 +7,13 @@ const express = require('express')
 const router = express.Router()
 
 /**
+ * Get current with future data from table
+ */
+router.get('/', async (req, res) => {
+  res.json(Weather.current())
+})
+
+/**
  * Get all data from table
  */
 router.get('/history', (req, res) => {

@@ -11,7 +11,7 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
   const data = await WeatherAPI.currentWeather()
-  const filterData = FilterData.filter(data)
+  const filterData = FilterData.apiResponse(data)
   res.setHeader('Content-Type', 'application/json')
   if (data) {
     res.json(filterData)

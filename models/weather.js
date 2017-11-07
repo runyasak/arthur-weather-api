@@ -44,13 +44,13 @@ const runSql = (db, sqlStr) => {
  * @return {array} result of execute
  */
 const execSql = (db, sqlStr) => {
-  let res
+  let result
   try {
-    res = db.exec(sqlStr)
+    result = db.exec(sqlStr)
   } catch (err) {
     console.log(err)
   }
-  return res
+  return result
 }
 
 /**
@@ -81,6 +81,21 @@ exports.dropAndCreateTable = () => {
   databaseExport(db)
   console.log('dropAndCreateTable!!')
 }
+/**
+ * Get all data from table
+ */
+exports.current = () => {
+  const db = getDatabase()
+  const currentDate = DateTime.format()
+  const currentSqlStr = `SELECT * FROM ${tableName} WHERE weather_data='${currentDate}'`
+  const furtureSqlStr = `SELECT * FROM ${tableName} WHERE weather_data BETWEEN '${DateTime.addDay(
+    currentDate,
+    1
+  )}' AND '${DateTime.addDay(currentDate, 5)}'`
+  const futureResponse = FilterData.sqlite(execSql(db, furtureSqlStr))
+  const currentResponse = FilterData.sqlite(execSql(db, currentSqlStr))
+  return FilterData.current(currentResponse, futureResponse) || `no such table: ${tableName}`
+}
 
 /**
  * Get all data from table
@@ -92,8 +107,8 @@ exports.history = (time) => {
     ? `WHERE strftime('${DateTime.isYear(time) ? '%Y' : '%m'}', weather_data)='${time}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
-  const res = FilterData.sqlite(execSql(db, sqlStr))
-  return res || `no such table: ${tableName}`
+  const result = FilterData.sqlite(execSql(db, sqlStr))
+  return result || `no such table: ${tableName}`
 }
 
 /**
