@@ -95,7 +95,7 @@ exports.current = () => {
   )}' AND '${DateTime.addDay(currentDate, 5)}'`
   const futureResponse = WeatherData.sqlite(execSql(db, furtureSqlStr))
   const currentResponse = WeatherData.sqlite(execSql(db, currentSqlStr))
-  console.log(currentResponse)
+  // console.log(currentResponse)
   return (
     WeatherData.current(currentResponse, futureResponse) ||
     `no such table: ${TABLE_NAME}`

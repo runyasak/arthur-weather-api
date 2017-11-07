@@ -1,6 +1,6 @@
 const { WeatherData } = require('../helpers')
-const WeatherAPI = require('../services/weather-api')
-const Weather = require('../models/weather')
+const { WeatherAPI } = require('../services')
+const { Weather } = require('../models')
 
 const express = require('express')
 

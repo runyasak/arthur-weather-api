@@ -1,7 +1,3 @@
-/**
- * Get forecasting detail of today.
- */
-
 const { WeatherData } = require('../helpers')
 const { WeatherAPI } = require('../services')
 

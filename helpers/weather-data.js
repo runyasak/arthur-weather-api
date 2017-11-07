@@ -37,6 +37,16 @@ const mapSqlite = (columns, rows) =>
       }),
     {}
   )
+const successData = (weatherLog, currentCondition) =>
+  Object.assign(
+    { success: true },
+    currentCondition
+      ? {
+          current_condition: currentCondition,
+          weather_log: weatherLog
+        }
+      : { weather_log: weatherLog }
+  )
 
 /**
  * Filter sqlite data included weather_log
@@ -44,20 +54,16 @@ const mapSqlite = (columns, rows) =>
  * @return {object} result of filtered object
  */
 exports.sqlite = data =>
-  Object.assign(
-    {},
-    {
-      surccess: true,
-      weather_log: ArrayUtil.first(data)
-        ? ArrayUtil.first(data).values.reduce(
-            (acc, value) => [
-              ...acc,
-              mapSqlite(ArrayUtil.first(data).columns, value)
-            ],
-            []
-          )
-        : []
-    }
+  successData(
+    ArrayUtil.first(data)
+      ? ArrayUtil.first(data).values.reduce(
+          (acc, value) => [
+            ...acc,
+            mapSqlite(ArrayUtil.first(data).columns, value)
+          ],
+          []
+        )
+      : []
   )
 
 /**
@@ -67,14 +73,7 @@ exports.sqlite = data =>
  * @return {object}
  */
 exports.current = (currentData, futureData) =>
-  Object.assign(
-    {},
-    {
-      success: true,
-      current_condition: ArrayUtil.first(currentData.weather_log),
-      weather_log: futureData.weather_log
-    }
-  )
+  successData(futureData.weather_log, ArrayUtil.first(currentData.weather_log))
 
 /**
  * Get filtered data from weather api for response
@@ -82,11 +81,7 @@ exports.current = (currentData, futureData) =>
  * @returns {object}
  */
 exports.apiResponse = data =>
-  Object.assign(
-    {},
-    {
-      surccess: true,
-      current_condition: data.query.results.channel.item.condition,
-      weather_log: mapWeatherLog(data.query.results.channel.item.forecast)
-    }
+  successData(
+    mapWeatherLog(data.query.results.channel.item.forecast),
+    data.query.results.channel.item.condition
   )
