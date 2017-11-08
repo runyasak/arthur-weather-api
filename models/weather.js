@@ -13,7 +13,7 @@ const { TABLE_NAME } = require('../constant')
  * Export data from sql.js to buffer and write with file system
  * @param {Database} db
  */
-const databaseExport = db => {
+const databaseExport = (db) => {
   try {
     const binaryArray = db.export()
     const buffer = Buffer.from(binaryArray.buffer)
@@ -68,9 +68,7 @@ const existWeatherID = (db, weatherData) => {
  * @return {sql.Database} Database from buffer
  */
 const getDatabase = () =>
-  new sql.Database(
-    fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || '')
-  )
+  new sql.Database(fs.readFileSync(path.join(__dirname, '../data/weather.sqlite') || ''))
 
 /**
  * Create table replace previous
@@ -96,22 +94,17 @@ exports.current = () => {
   )}' AND '${DateTime.addDay(currentDate, 5)}'`
   const currentResponse = WeatherData.mapSqlite(execSql(db, currentSqlStr))
   const futureResponse = WeatherData.mapSqlite(execSql(db, furtureSqlStr))
-  return (
-    WeatherData.current(currentResponse, futureResponse) ||
-    `no such table: ${TABLE_NAME}`
-  )
+  return WeatherData.current(currentResponse, futureResponse) || `no such table: ${TABLE_NAME}`
 }
 
 /**
  * Get all data from table
  */
-exports.history = time => {
+exports.history = (time) => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${TABLE_NAME}`
   const whereStr = time
-    ? `WHERE strftime('${DateTime.isYear(time)
-        ? '%Y'
-        : '%m'}', weather_data)='${time}'`
+    ? `WHERE strftime('${DateTime.isYear(time) ? '%Y' : '%m'}', weather_data)='${time}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
   const result = WeatherData.mapSqlite(execSql(db, sqlStr))
@@ -122,13 +115,10 @@ exports.history = time => {
  * Add or update new weather data in table
  * @param {string} weatherData
  */
-exports.add = weatherData => {
+exports.add = (weatherData) => {
   const db = getDatabase()
-  weatherData.weather_log.forEach(data => {
-    const weatherID = existWeatherID(
-      db,
-      DateTime.format('YYYY-MM-DD', data.weather_data)
-    )
+  weatherData.weather_log.forEach((data) => {
+    const weatherID = existWeatherID(db, DateTime.format('YYYY-MM-DD', data.weather_data))
     const sqlStr = weatherID
       ? `UPDATE ${TABLE_NAME} 
         SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', 
@@ -137,9 +127,9 @@ exports.add = weatherData => {
       : `INSERT INTO ${TABLE_NAME} 
         (weather_data, weather_code, weather_high, weather_low, weather_text)
         VALUES ('${DateTime.format(
-          'YYYY-MM-DD',
-          data.weather_data
-        )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+    'YYYY-MM-DD',
+    data.weather_data
+  )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
 
     runSql(db, sqlStr)
   })
