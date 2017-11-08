@@ -59,7 +59,8 @@ const execSql = (db, sqlStr) => {
  */
 const existWeatherID = (db, weatherData) => {
   const sqlStr = `SELECT weather_id FROM arthur_weather WHERE weather_data='${weatherData}';`
-  return execSql(db, sqlStr)[0] ? execSql(db, sqlStr)[0].values[0][0] : null
+  const result = WeatherData.mapSqlite(execSql(db, sqlStr))
+  return result.weather_log[0] ? result.weather_log[0].weather_id : null
 }
 
 /**
@@ -93,8 +94,8 @@ exports.current = () => {
     currentDate,
     1
   )}' AND '${DateTime.addDay(currentDate, 5)}'`
-  const currentResponse = WeatherData.sqlite(execSql(db, currentSqlStr))
-  const futureResponse = WeatherData.sqlite(execSql(db, furtureSqlStr))
+  const currentResponse = WeatherData.mapSqlite(execSql(db, currentSqlStr))
+  const futureResponse = WeatherData.mapSqlite(execSql(db, furtureSqlStr))
   return (
     WeatherData.current(currentResponse, futureResponse) ||
     `no such table: ${TABLE_NAME}`
@@ -113,7 +114,7 @@ exports.history = time => {
         : '%m'}', weather_data)='${time}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
-  const result = WeatherData.sqlite(execSql(db, sqlStr))
+  const result = WeatherData.mapSqlite(execSql(db, sqlStr))
   return result || `no such table: ${TABLE_NAME}`
 }
 
@@ -129,14 +130,16 @@ exports.add = weatherData => {
       DateTime.format('YYYY-MM-DD', data.weather_data)
     )
     const sqlStr = weatherID
-      ? `UPDATE
-    arthur_weather SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', weather_low='${data.weather_low}', weather_text='${data.weather_text}' WHERE weather_id = ${weatherID};`
-      : `INSERT INTO
-    ${TABLE_NAME} (weather_data, weather_code, weather_high, weather_low, weather_text)
-    VALUES ('${DateTime.format(
-      'YYYY-MM-DD',
-      data.weather_data
-    )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
+      ? `UPDATE ${TABLE_NAME} 
+        SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', 
+            weather_low='${data.weather_low}', weather_text='${data.weather_text}' 
+        WHERE weather_id = ${weatherID};`
+      : `INSERT INTO ${TABLE_NAME} 
+        (weather_data, weather_code, weather_high, weather_low, weather_text)
+        VALUES ('${DateTime.format(
+          'YYYY-MM-DD',
+          data.weather_data
+        )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
 
     runSql(db, sqlStr)
   })

@@ -35,9 +35,9 @@ const mapRow = (columns, row) =>
 /**
  * Map sqlite data values
  * @param {obj} columns array of columns
- * @returns {object} data that was mapped with columns and row
+ * @returns {Array} data that was mapped with columns and row
  */
-const mapSqliteData = data =>
+const mapColumnRow = data =>
   ArrayUtil.first(data)
     ? ArrayUtil.first(data).values.reduce(
         (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
@@ -66,7 +66,7 @@ const successData = (weatherLog, currentCondition) =>
  * @param {object} data data from executing sql
  * @return {object} result of filtered object
  */
-exports.sqlite = data => successData(mapSqliteData(data))
+exports.mapSqlite = data => successData(mapColumnRow(data))
 
 /**
  * Filter data for current response which has current_condition and weather_log as future forecast
