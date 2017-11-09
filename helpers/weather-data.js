@@ -1,4 +1,4 @@
-const { ArrayUtil, DateTime } = require('.')
+const { ArrayUtil } = require('.')
 
 /**
  * Map key of weather log data from api
@@ -27,10 +27,7 @@ const mapWeatherLogAPI = data =>
  * @returns {object} data that was mapped with columns and row
  */
 const mapRow = (columns, row) =>
-  columns.reduce(
-    (acc, value, index) => Object.assign(acc, { [value]: row[index] }),
-    {}
-  )
+  columns.reduce((acc, value, index) => Object.assign(acc, { [value]: row[index] }), {})
 
 /**
  * Map sqlite data values
@@ -38,26 +35,26 @@ const mapRow = (columns, row) =>
  * @returns {Array} data that was mapped with columns and row
  */
 const mapColumnRow = data =>
-  ArrayUtil.first(data)
+  (ArrayUtil.first(data)
     ? ArrayUtil.first(data).values.reduce(
-        (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
-        []
-      )
-    : []
+      (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
+      []
+    )
+    : [])
 
 /**
  * Success data for response
- * @param {array} weatherLog 
- * @param {object} currentCondition 
+ * @param {array} weatherLog
+ * @param {object} currentCondition
  */
 const successData = (weatherLog, currentCondition) =>
   Object.assign(
     { success: true },
     currentCondition
       ? {
-          current_condition: currentCondition,
-          weather_log: weatherLog
-        }
+        current_condition: currentCondition,
+        weather_log: weatherLog
+      }
       : { weather_log: weatherLog }
   )
 

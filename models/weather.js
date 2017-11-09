@@ -1,4 +1,5 @@
 const { DateTime, WeatherData } = require('../helpers')
+const moment = require('moment-timezone').tz.setDefault('Asia/Bangkok')
 
 const fs = require('fs')
 const sql = require('sql.js')
@@ -86,12 +87,15 @@ exports.dropAndCreateTable = () => {
  */
 exports.current = () => {
   const db = getDatabase()
-  const currentDate = DateTime.format('YYYY-MM-DD')
+  const currentDate = moment(new Date()).format('YYYY-MM-DD')
+  const beginDate = moment(currentDate)
+    .add(1, 'day')
+    .format('YYYY-MM-DD')
+  const endDate = moment(currentDate)
+    .add(5, 'days')
+    .format('YYYY-MM-DD')
   const currentSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data='${currentDate}'`
-  const furtureSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data BETWEEN '${DateTime.addDay(
-    currentDate,
-    1
-  )}' AND '${DateTime.addDay(currentDate, 5)}'`
+  const furtureSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data BETWEEN '${beginDate}' AND '${endDate}'`
   const currentResponse = WeatherData.mapSqlite(execSql(db, currentSqlStr))
   const futureResponse = WeatherData.mapSqlite(execSql(db, furtureSqlStr))
   return WeatherData.current(currentResponse, futureResponse) || `no such table: ${TABLE_NAME}`
@@ -100,11 +104,11 @@ exports.current = () => {
 /**
  * Get all data from table
  */
-exports.history = (time) => {
+exports.history = (inputTime) => {
   const db = getDatabase()
   const selectStr = `SELECT * FROM ${TABLE_NAME}`
-  const whereStr = time
-    ? `WHERE strftime('${DateTime.isYear(time) ? '%Y' : '%m'}', weather_data)='${time}'`
+  const whereStr = inputTime
+    ? `WHERE strftime('${DateTime.isYear(inputTime) ? '%Y' : '%m'}', weather_data)='${inputTime}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
   const result = WeatherData.mapSqlite(execSql(db, sqlStr))
@@ -115,22 +119,18 @@ exports.history = (time) => {
  * Add or update new weather data in table
  * @param {string} weatherData
  */
-exports.add = (weatherData) => {
+exports.add = (inputData) => {
   const db = getDatabase()
-  weatherData.weather_log.forEach((data) => {
-    const weatherID = existWeatherID(db, DateTime.format('YYYY-MM-DD', data.weather_data))
+  inputData.weather_log.forEach((data) => {
+    const weatherData = moment(new Date(data.weather_data)).format('YYYY-MM-DD')
+    const weatherID = existWeatherID(db, weatherData)
     const sqlStr = weatherID
       ? `UPDATE ${TABLE_NAME} 
         SET weather_code='${data.weather_code}', weather_high='${data.weather_high}', 
-            weather_low='${data.weather_low}', weather_text='${data.weather_text}' 
+          weather_low='${data.weather_low}', weather_text='${data.weather_text}' 
         WHERE weather_id = ${weatherID};`
-      : `INSERT INTO ${TABLE_NAME} 
-        (weather_data, weather_code, weather_high, weather_low, weather_text)
-        VALUES ('${DateTime.format(
-    'YYYY-MM-DD',
-    data.weather_data
-  )}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
-
+      : `INSERT INTO ${TABLE_NAME} (weather_data, weather_code, weather_high, weather_low, weather_text)
+        VALUES ('${weatherData}', '${data.weather_code}', '${data.weather_high}', '${data.weather_low}', '${data.weather_text}');`
     runSql(db, sqlStr)
   })
   databaseExport(db)
