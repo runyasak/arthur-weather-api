@@ -96,9 +96,10 @@ exports.current = () => {
     .format('YYYY-MM-DD')
   const currentSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data='${currentDate}'`
   const furtureSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data BETWEEN '${beginDate}' AND '${endDate}'`
-  const currentResponse = WeatherData.mapSqlite(execSql(db, currentSqlStr))
-  const futureResponse = WeatherData.mapSqlite(execSql(db, furtureSqlStr))
-  return WeatherData.current(currentResponse, futureResponse) || `no such table: ${TABLE_NAME}`
+  const currentResponse = execSql(db, currentSqlStr)
+  const futureResponse = execSql(db, furtureSqlStr)
+  const result = WeatherData.mapSqlite(futureResponse, currentResponse)
+  return result || `no such table: ${TABLE_NAME}`
 }
 
 /**

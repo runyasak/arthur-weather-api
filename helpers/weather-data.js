@@ -35,7 +35,7 @@ const mapRow = (columns, row) =>
  * @returns {Array} data that was mapped with columns and row
  */
 const mapColumnRow = data =>
-  (ArrayUtil.first(data)
+  (data && ArrayUtil.first(data)
     ? ArrayUtil.first(data).values.reduce(
       (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
       []
@@ -63,16 +63,8 @@ const successData = (weatherLog, currentCondition) =>
  * @param {object} data data from executing sql
  * @return {object} result of filtered object
  */
-exports.mapSqlite = data => successData(mapColumnRow(data))
-
-/**
- * Filter data for current response which has current_condition and weather_log as future forecast
- * @param {object} currentData
- * @param {object} futureData
- * @return {object}
- */
-exports.current = (currentData, futureData) =>
-  successData(futureData.weather_log, ArrayUtil.first(currentData.weather_log))
+exports.mapSqlite = (weatherLog, currentLog) =>
+  successData(mapColumnRow(weatherLog), mapColumnRow(currentLog))
 
 /**
  * Get filtered data from weather api for response
