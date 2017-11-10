@@ -1,8 +1,3 @@
-const express = require('express')
+exports.DataController = require('./data-controller')
 
-const router = express.Router()
-
-router.use('/weather', require('./weather-controller'))
-router.use('/api/v1/weather', require('./data-controller'))
-
-module.exports = router
+exports.WeatherController = require('./weather-controller')

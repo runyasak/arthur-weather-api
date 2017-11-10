@@ -50,7 +50,7 @@ const mapColumnRow = data =>
 const successData = (weatherLog, currentCondition) =>
   Object.assign(
     { success: true },
-    currentCondition
+    currentCondition && ArrayUtil.first(currentCondition)
       ? {
         current_condition: currentCondition,
         weather_log: weatherLog

@@ -2,53 +2,47 @@ const { WeatherData } = require('../helpers')
 const { WeatherAPI } = require('../services')
 const { Weather } = require('../repository')
 
-const express = require('express')
-
-const router = express.Router()
-
 /**
  * Get current with future data from table
  */
-router.get('/', async (req, res) => {
+exports.current = async (req, res) => {
   res.json(Weather.current())
-})
+}
 
 /**
  * Get all data from table
  */
-router.get('/history', (req, res) => {
+exports.history = async (req, res) => {
   res.json(Weather.history())
-})
+}
 
 /**
  * Get data by year
  */
-router.get('/year/:year', (req, res) => {
+exports.byYear = (req, res) => {
   res.json(Weather.history(req.params.year))
-})
+}
 
 /**
  * Get data by month
  */
-router.get('/month/:month', (req, res) => {
+exports.byMonth = (req, res) => {
   res.json(Weather.history(req.params.month))
-})
+}
 
 /**
  * Reset database and create a new table
  */
-router.get('/reset', (req, res) => {
+exports.reset = (req, res) => {
   Weather.dropAndCreateTable()
   res.json(Weather.history())
-})
+}
 
 /**
  * Add current weather data
  */
-router.get('/add', async (req, res) => {
+exports.add = async (req, res) => {
   const weatherData = WeatherData.apiResponse(await WeatherAPI.currentWeather())
   Weather.add(weatherData)
   res.json(Weather.history())
-})
-
-module.exports = router
+}

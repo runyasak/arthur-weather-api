@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.send('hello weather!')
 })
 
-app.use(require('./controllers'))
+app.use(require('./routes'))
 
 app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')}!`)
