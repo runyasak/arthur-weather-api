@@ -1,9 +1,3 @@
-/* eslint-disable */
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').load()
-}
-/* eslint-enable */
-
 const express = require('express')
 
 const app = express()

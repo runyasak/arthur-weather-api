@@ -9,6 +9,6 @@ describe('#get check isYear', () => {
   })
   it('should get false if the input is month', () => {
     const month = 11
-    expect(DateTime.isYear(month)).toBeTruthy()
+    expect(DateTime.isYear(month)).not.toBeTruthy()
   })
 })
