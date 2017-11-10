@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const { WEATHER_URL } = require('../constant')
+const { WEATHER_URL } = require('../config')
 
 /**
  * Get current weather detail of Thailand from Yahoo Weather API

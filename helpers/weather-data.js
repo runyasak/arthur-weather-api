@@ -61,7 +61,7 @@ const successData = (weatherLog, currentCondition) =>
 /**
  * Filter sqlite data included weather_log
  * @param {object} data data from executing sql
- * @return {object} result of filtered object
+ * @return {object} result of success object
  */
 exports.mapSqlite = (weatherLog, currentLog) =>
   successData(mapColumnRow(weatherLog), mapColumnRow(currentLog))

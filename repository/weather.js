@@ -8,7 +8,7 @@ const path = require('path')
 /**
  * @type {string} Table name in Database
  */
-const { TABLE_NAME } = require('../constant')
+const { TABLE_NAME } = require('../config')
 
 /**
  * Export data from sql.js to buffer and write with file system
@@ -104,6 +104,8 @@ exports.current = () => {
 
 /**
  * Get all data from table
+ * @param {number} inputTime time for filter data, month or year
+ * @return {object}
  */
 exports.history = (inputTime) => {
   const db = getDatabase()
