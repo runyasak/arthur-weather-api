@@ -1,6 +1,9 @@
 const { WeatherData } = require('../helpers')
 const { WeatherAPI } = require('../services')
 
+/**
+ * Get request data from api
+ */
 exports.request = async (req, res) => {
   const data = await WeatherAPI.currentWeather()
   const result = WeatherData.apiResponse(data)
