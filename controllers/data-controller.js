@@ -1,6 +1,6 @@
 const { WeatherData } = require('../helpers')
 const { WeatherAPI } = require('../services')
-const { Weather } = require('../repository')
+const { Weather } = require('../sqlite-dbhelper')
 
 /**
  * Get current with future data from table

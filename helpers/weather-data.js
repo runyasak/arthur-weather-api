@@ -5,17 +5,14 @@ const { ArrayUtil } = require('.')
  * @param {object} data
  * @returns {array}
  */
-const mapWeatherLogAPI = data =>
+const mapResponse = data =>
   data.reduce(
     (acc, value) => [
       ...acc,
-      {
-        weather_code: value.code,
-        weather_data: value.date,
-        weather_high: value.high,
-        weather_low: value.low,
-        weather_text: value.text
-      }
+      Object.keys(value).reduce(
+        (objAcc, key) => Object.assign(objAcc, { [`weather_${key}`]: value[key] }),
+        {}
+      )
     ],
     []
   )
@@ -34,13 +31,19 @@ const mapRow = (columns, row) =>
  * @param {obj} columns array of columns
  * @returns {Array} data that was mapped with columns and row
  */
-const mapColumnRow = data =>
-  (data && ArrayUtil.first(data)
-    ? ArrayUtil.first(data).values.reduce(
-      (acc, row) => [...acc, mapRow(ArrayUtil.first(data).columns, row)],
-      []
-    )
-    : [])
+const mapColumnRow = (data) => {
+  const records = data ? ArrayUtil.first(data) : null
+  let result = null
+  if (records) {
+    const dataColumns = ArrayUtil.first(data).columns
+    const dataRows = ArrayUtil.first(data).values
+    result =
+      dataRows.length > 1
+        ? dataRows.reduce((acc, row) => [...acc, mapRow(dataColumns, row)], [])
+        : mapRow(dataColumns, dataRows[0])
+  }
+  return result
+}
 
 /**
  * Success data for response
@@ -50,7 +53,7 @@ const mapColumnRow = data =>
 const successData = (weatherLog, currentCondition) =>
   Object.assign(
     { success: true },
-    currentCondition && ArrayUtil.first(currentCondition)
+    currentCondition
       ? {
         current_condition: currentCondition,
         weather_log: weatherLog
@@ -73,6 +76,6 @@ exports.mapSqlite = (weatherLog, currentLog) =>
  */
 exports.apiResponse = data =>
   successData(
-    mapWeatherLogAPI(data.query.results.channel.item.forecast),
+    mapResponse(data.query.results.channel.item.forecast),
     data.query.results.channel.item.condition
   )
