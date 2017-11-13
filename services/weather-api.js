@@ -7,7 +7,6 @@ const { WEATHER_URL } = require('../config')
  * @param {string} name
  * @returns {object}
  */
-
 exports.currentWeather = async () => {
   const result = await axios.get(WEATHER_URL)
   return result.data

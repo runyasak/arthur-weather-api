@@ -1,7 +1,7 @@
 const { ArrayUtil } = require('.')
 
 /**
- * Map key of weather log data from api
+ * Map key of weather log data from api response
  * @param {object} data
  * @returns {array}
  */
