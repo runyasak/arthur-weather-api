@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-const { DateTime } = require('../../helpers')
+const { DateTime } = require('../../../helpers')
 
 describe('#get check isYear', () => {
   it('should get true if the input is year', () => {

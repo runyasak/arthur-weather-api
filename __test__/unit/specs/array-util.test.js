@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-const { ArrayUtil } = require('../../helpers')
+const { ArrayUtil } = require('../../../helpers')
 
 const testArr = jest.fn().mockReturnValue([1, 2, 3])
 
