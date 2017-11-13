@@ -20,7 +20,7 @@ const mapWeatherLog = data =>
  * @param {object} data
  * @returns {object}
  */
-exports.mapResponse = data =>
+exports.format = data =>
   Object.assign(
     {},
     {

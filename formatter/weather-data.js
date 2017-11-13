@@ -1,4 +1,4 @@
-const { ArrayUtil } = require('.')
+const { ArrayUtil } = require('../helpers')
 
 /**
  * Map key as columns with rows
@@ -49,5 +49,5 @@ const successData = (weatherLog, currentCondition) =>
  * @param {object} data data from executing sql
  * @return {object} result of success object
  */
-exports.mapSqlite = (weatherLog, currentLog) =>
+exports.format = (weatherLog, currentLog) =>
   successData(mapColumnRow(weatherLog), mapColumnRow(currentLog))

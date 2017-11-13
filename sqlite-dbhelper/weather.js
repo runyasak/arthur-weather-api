@@ -1,4 +1,4 @@
-const { DateTime, WeatherData } = require('../helpers')
+const { DateTime, WeatherData } = require('../formatter')
 const moment = require('moment-timezone').tz.setDefault('Asia/Bangkok')
 
 const fs = require('fs')
@@ -60,7 +60,7 @@ const execSql = (db, sqlStr) => {
  */
 const existWeatherID = (db, weatherData) => {
   const sqlStr = `SELECT weather_id FROM arthur_weather WHERE weather_data='${weatherData}';`
-  const result = WeatherData.mapSqlite(execSql(db, sqlStr))
+  const result = WeatherData.format(execSql(db, sqlStr))
   return result.weather_log[0] ? result.weather_log[0].weather_id : null
 }
 
@@ -83,27 +83,28 @@ exports.dropAndCreateTable = () => {
   console.log('dropAndCreateTable!!')
 }
 /**
- * Get all data from table
+ * Get all data from table with current log
+ * @param {date} currentDate
+ * @return {object}
  */
-exports.current = () => {
+exports.current = (currentDate) => {
   const db = getDatabase()
-  const currentDate = moment(new Date()).format('YYYY-MM-DD')
   const beginDate = moment(currentDate)
     .add(1, 'day')
     .format('YYYY-MM-DD')
   const endDate = moment(currentDate)
     .add(5, 'days')
     .format('YYYY-MM-DD')
-  const currentSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data='${currentDate}'`
+  const currentSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data='${moment(currentDate).format('YYYY-MM-DD')}'`
   const furtureSqlStr = `SELECT * FROM ${TABLE_NAME} WHERE weather_data BETWEEN '${beginDate}' AND '${endDate}'`
   const currentResponse = execSql(db, currentSqlStr)
   const futureResponse = execSql(db, furtureSqlStr)
-  const result = WeatherData.mapSqlite(futureResponse, currentResponse)
+  const result = WeatherData.format(futureResponse, currentResponse)
   return result || `no such table: ${TABLE_NAME}`
 }
 
 /**
- * Get all data from table
+ * Get all data from table by month or year
  * @param {number} inputTime time for filter data, month or year
  * @return {object}
  */
@@ -116,7 +117,7 @@ exports.history = (inputTime) => {
   const sqlStr = `${selectStr} ${whereStr}`
   const sqlData = execSql(db, sqlStr)
   console.log(sqlData[0].values)
-  const result = WeatherData.mapSqlite(sqlData)
+  const result = WeatherData.format(sqlData)
   return result || `no such table: ${TABLE_NAME}`
 }
 
