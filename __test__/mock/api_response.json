@@ -1,0 +1,152 @@
+{
+  "query": {
+    "count": 1,
+    "created": "2017-11-13T06:42:15Z",
+    "lang": "en-US",
+    "results": {
+      "channel": {
+        "units": {
+          "distance": "mi",
+          "pressure": "in",
+          "speed": "mph",
+          "temperature": "F"
+        },
+        "title": "Yahoo! Weather - Bangkok, Bangkok, TH",
+        "link":
+          "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-1225448/",
+        "description": "Yahoo! Weather for Bangkok, Bangkok, TH",
+        "language": "en-us",
+        "lastBuildDate": "Mon, 13 Nov 2017 01:42 PM ICT",
+        "ttl": "60",
+        "location": {
+          "city": "Bangkok",
+          "country": "Thailand",
+          "region": " Bangkok"
+        },
+        "wind": {
+          "chill": "81",
+          "direction": "158",
+          "speed": "7"
+        },
+        "atmosphere": {
+          "humidity": "82",
+          "pressure": "1007.0",
+          "rising": "0",
+          "visibility": "16.1"
+        },
+        "astronomy": {
+          "sunrise": "6:17 am",
+          "sunset": "5:47 pm"
+        },
+        "image": {
+          "title": "Yahoo! Weather",
+          "width": "142",
+          "height": "18",
+          "link": "http://weather.yahoo.com",
+          "url": "http://l.yimg.com/a/i/brand/purplelogo//uh/us/news-wea.gif"
+        },
+        "item": {
+          "title": "Conditions for Bangkok, Bangkok, TH at 01:00 PM ICT",
+          "lat": "13.75335",
+          "long": "100.504829",
+          "link":
+            "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-1225448/",
+          "pubDate": "Mon, 13 Nov 2017 01:00 PM ICT",
+          "condition": {
+            "code": "12",
+            "date": "Mon, 13 Nov 2017 01:00 PM ICT",
+            "temp": "81",
+            "text": "Rain"
+          },
+          "forecast": [
+            {
+              "code": "4",
+              "date": "13 Nov 2017",
+              "day": "Mon",
+              "high": "84",
+              "low": "76",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "14 Nov 2017",
+              "day": "Tue",
+              "high": "87",
+              "low": "75",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "15 Nov 2017",
+              "day": "Wed",
+              "high": "87",
+              "low": "74",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "16 Nov 2017",
+              "day": "Thu",
+              "high": "83",
+              "low": "75",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "17 Nov 2017",
+              "day": "Fri",
+              "high": "85",
+              "low": "75",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "18 Nov 2017",
+              "day": "Sat",
+              "high": "89",
+              "low": "76",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "4",
+              "date": "19 Nov 2017",
+              "day": "Sun",
+              "high": "85",
+              "low": "76",
+              "text": "Thunderstorms"
+            },
+            {
+              "code": "28",
+              "date": "20 Nov 2017",
+              "day": "Mon",
+              "high": "86",
+              "low": "75",
+              "text": "Mostly Cloudy"
+            },
+            {
+              "code": "26",
+              "date": "21 Nov 2017",
+              "day": "Tue",
+              "high": "81",
+              "low": "74",
+              "text": "Cloudy"
+            },
+            {
+              "code": "26",
+              "date": "22 Nov 2017",
+              "day": "Wed",
+              "high": "83",
+              "low": "74",
+              "text": "Cloudy"
+            }
+          ],
+          "description":
+            "<![CDATA[<img src=\"http://l.yimg.com/a/i/us/we/52/12.gif\"/>\n<BR />\n<b>Current Conditions:</b>\n<BR />Rain\n<BR />\n<BR />\n<b>Forecast:</b>\n<BR /> Mon - Thunderstorms. High: 84Low: 76\n<BR /> Tue - Thunderstorms. High: 87Low: 75\n<BR /> Wed - Thunderstorms. High: 87Low: 74\n<BR /> Thu - Thunderstorms. High: 83Low: 75\n<BR /> Fri - Thunderstorms. High: 85Low: 75\n<BR />\n<BR />\n<a href=\"http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-1225448/\">Full Forecast at Yahoo! Weather</a>\n<BR />\n<BR />\n<BR />\n]]>",
+          "guid": {
+            "isPermaLink": "false"
+          }
+        }
+      }
+    }
+  }
+}

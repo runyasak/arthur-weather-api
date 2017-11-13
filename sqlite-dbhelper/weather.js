@@ -114,7 +114,9 @@ exports.history = (inputTime) => {
     ? `WHERE strftime('${DateTime.isYear(inputTime) ? '%Y' : '%m'}', weather_data)='${inputTime}'`
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
-  const result = WeatherData.mapSqlite(execSql(db, sqlStr))
+  const sqlData = execSql(db, sqlStr)
+  console.log(sqlData[0].values)
+  const result = WeatherData.mapSqlite(sqlData)
   return result || `no such table: ${TABLE_NAME}`
 }
 

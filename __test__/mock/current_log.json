@@ -1,0 +1,13 @@
+[
+  {
+    "columns": [
+      "weather_id",
+      "weather_data",
+      "weather_code",
+      "weather_high",
+      "weather_low",
+      "weather_text"
+    ],
+    "values": [[1, "2017-11-11", "4", "86", "76", "Thunderstorms"]]
+  }
+]
