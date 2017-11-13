@@ -1,4 +1,4 @@
-const { WeatherData } = require('../helpers')
+const { APIResponse } = require('../helpers')
 const { WeatherAPI } = require('../services')
 
 /**
@@ -6,7 +6,7 @@ const { WeatherAPI } = require('../services')
  */
 exports.request = async (req, res) => {
   const data = await WeatherAPI.currentWeather()
-  const result = WeatherData.apiResponse(data)
+  const result = APIResponse.mapResponse(data)
   res.setHeader('Content-Type', 'application/json')
   if (data) {
     res.json(result)
