@@ -23,6 +23,10 @@ coverage
 # nyc test coverage
 .nyc_output
 
+# cypress e2e
+__test__/cypress/fixtures
+__test__/cypress/screenshots
+
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
