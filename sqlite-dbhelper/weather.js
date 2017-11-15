@@ -1,4 +1,5 @@
-const { DateTime, WeatherData } = require('../formatter')
+const { DateTime } = require('../helpers')
+const { WeatherData } = require('../formatter')
 const moment = require('moment-timezone').tz.setDefault('Asia/Bangkok')
 
 const fs = require('fs')
@@ -116,7 +117,7 @@ exports.history = (inputTime) => {
     : ''
   const sqlStr = `${selectStr} ${whereStr}`
   const sqlData = execSql(db, sqlStr)
-  console.log(sqlData[0].values)
+  // console.log(sqlData[0].values)
   const result = WeatherData.format(sqlData)
   return result || `no such table: ${TABLE_NAME}`
 }

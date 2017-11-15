@@ -1,5 +1,5 @@
 # Arthur Weather API
-The service for request current forecasting of country by country name or id, according to [openWeatherMap](http://openweathermap.org/current).
+The service for request current forecasting of country by country name or id, according to [Yahoo Weather](https://developer.yahoo.com/weather/).
 
 ## 💡 Requirements
 * Node v7.7.2
@@ -15,19 +15,21 @@ Install all packages and run on development
 
 	npm run dev
 
-Get current weather of country by route /weather
+Get weather data
 	
-	/* REQUEST BY COUNTRY NAME */
-	http://localhost:3000/weather/Thailand
+	/* REQUEST CURRENT FORECAST AND FUTURE */
+	localhost:3000/api/v1/weather/
 	
-	/* REQUEST BY COUNTRY ID */
-	http://localhost:3000/weather/1608132
+	/* REQUEST HISTORY DATA */
+	localhost:3000/api/v1/weather/history
+
+	/* REQUEST DATA BY MONTH */
+	localhost:3000/api/v1/weather/month/:month
+
+	/* REQUEST DATA BY YEAR */
+	localhost:3000/api/v1/weather/year/:year
 
 ## ❄️ Config Variables
-The environment variables for running on project, using dotenv on ` NODE_ENV='development'`.
+The environment variables for running on project
 
-	NODE_ENV='<STATE OF NODE ENVIRONMENT>'
-	
 	PORT='<SERVICE LISTENER PORT>'
-	
-	APP_ID='<OPEN_WEATHER APP ID>'

@@ -16,7 +16,7 @@ const mapRow = (columns, row) =>
  */
 const mapColumnRow = (data) => {
   const records = data ? ArrayUtil.first(data) : null
-  let result = null
+  let result = []
   if (records) {
     const dataColumns = ArrayUtil.first(data).columns
     const dataRows = ArrayUtil.first(data).values
@@ -36,7 +36,7 @@ const mapColumnRow = (data) => {
 const successData = (weatherLog, currentCondition) =>
   Object.assign(
     { success: true },
-    currentCondition
+    Array.isArray(currentCondition) && currentCondition.length > 0
       ? {
         current_condition: currentCondition,
         weather_log: weatherLog
