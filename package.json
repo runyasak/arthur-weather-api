@@ -8,8 +8,9 @@
     "dev": "nodemon -L app.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "e2e": "cypress run --project ./__test__",
-    "cypress:open": "cypress open --project ./__test__"
+    "e2e": "node_modules/.bin/cypress run --project ./__test__",
+    "cypress:open": "node_modules/.bin/cypress open --project ./__test__",
+    "cypress:install": "node_modules/.bin/cypress install"
   },
   "author": "",
   "license": "ISC",
